@@ -28,7 +28,6 @@ This repository holds A Mobile Application dedicated to give Trips advices.
 | Install React               		| ✔️            |		|
 | Install React-Native        		| ✔️            |		|
 | Create PSD              		| ✔️            |		|
-| Create PSD              		| ✔️            |		|
 
 
 

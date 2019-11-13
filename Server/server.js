@@ -4,6 +4,7 @@ const db = require("./db");
 
 const app = express();
 app.use(cors());
+
 app.use((request, response, next) => {
   response.header(`Access-Control-Allow-Origin`, `*`);
   response.header(
@@ -12,14 +13,18 @@ app.use((request, response, next) => {
   );
   next();
 });
+
+//_______________________________________________________
+
 app.use(express.json());
 
 app.get("/", (req, res) => res.json("test working"));
 
 //SERVER AND DATABASE RESPONSE AND BEHAVIOR
 
-//Please write your code below and only below here 
+//Please write your code below and only below here
 //Start here
+// _________________________BITTAR
 
 
 
@@ -27,15 +32,37 @@ app.get("/", (req, res) => res.json("test working"));
 
 
 
+// _________________________END BITTAR
+
+//__________________________________________________RAGHAD
+
+app.post("/register", (req, res) => {
+  db.register(response => {
+    res.send(response);
+  });
+});
+
+//_________________GET BEST TRIPS
+
+app.get("/getBestTrips", (req, res) => {
+  db.getBestTrips(response => {
+    res.json(response);
+  }, req.body);
+});
+
+
+//______________________________________________END RAGHAD
+
+
+//________________________________________________ AZZAM
 
 
 
 
-
-
+//________________________________________________END AZZAM
 
 //End here
-//Port 
+//Port
 const PORT = process.env.PORT || 9000;
 
 app.listen(PORT, () => {

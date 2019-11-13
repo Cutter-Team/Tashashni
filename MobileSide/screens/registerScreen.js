@@ -1,8 +1,25 @@
-import React, { Component } from 'react';
-import { Text, View } from "react-native";
+import React, { Component } from "react";
+import {
+  Text,
+  View,
+  TextInput,
+  Picker,
+  Button,
+  Form,
+  Item,
+  Label,
+  Input
+} from "react-native";
 
 class RegisterScreen extends Component {
-  state = {};
+  state = {
+    username: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
+    place: ""
+  };
+
   render() {
     return (
       <View>

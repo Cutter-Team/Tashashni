@@ -14,16 +14,15 @@ db.once("open", function() {
 
 let users = new mongoose.Schema({
   email: String,
-  place: String,
+  location: String,
   password: String,
   username: String
 });
 
 let restaurant = new mongoose.Schema({
   name: String,
-  place: String,
+  location: String,
   description: String,
-  address: String,
   offers: [
     {
       name: String,
@@ -34,24 +33,26 @@ let restaurant = new mongoose.Schema({
 
 let entertainment = new mongoose.Schema({
   name: String,
-  place: String,
+  location: String,
   minimumPrice: Number,
-  address: String,
   description: String
 });
 
 let places = new mongoose.Schema({
-  name: String
+  name: String,
+  location: String
 });
 
+// End Schema
+
+//MODELS
 let Users = mongoose.model("users", users);
 let Restaurant = mongoose.model("restaurant", restaurant);
 let Entertainment = mongoose.model("entertainment", entertainment);
 let Places = mongoose.model("places", places);
 
-//_______________________________________________________________ End Schema
-
-//MODELS
+//QUERIES FUNCTIONS
+//use const instead of let here
 let register = callback => {
   Users.create(
     {
@@ -70,20 +71,5 @@ let register = callback => {
   );
 };
 
-let getBestTrips = (callback, budget) => {
-  let results = "";
-  Restaurant.findMany({}, (error, response) => {
-    if (error) {
-      console.log(erro);
-    } else {
-      results += response;
-    }
-  });
-  Entertainment.findOne({});
-
-  callback(results);
-};
-
 //MODULE EXPORTS
-
-module.exports = { register, getBestTrips };
+module.exports = { register };

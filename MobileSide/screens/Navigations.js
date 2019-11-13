@@ -12,7 +12,7 @@ export default function Router() {
       }}
     >
       <View>
-        <Text>Register</Text>
+        <Text>Navigations</Text>
       </View>
     </TouchableHighlight>
   );

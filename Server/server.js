@@ -4,16 +4,15 @@ const db = require("./db");
 
 const app = express();
 app.use(cors());
-//__________________USELESS CODE ACTUALLY________________
 
-// app.use((request, response, next) => {
-//   response.header(`Access-Control-Allow-Origin`, `*`);
-//   response.header(
-//     `Access-Control-Allow-Headers`,
-//     `Origin, X-Requested-with, Content-Type, Accept`
-//   );
-//   next();
-// });
+app.use((request, response, next) => {
+  response.header(`Access-Control-Allow-Origin`, `*`);
+  response.header(
+    `Access-Control-Allow-Headers`,
+    `Origin, X-Requested-with, Content-Type, Accept`
+  );
+  next();
+});
 
 //_______________________________________________________
 
@@ -25,6 +24,17 @@ app.get("/", (req, res) => res.json("test working"));
 
 //Please write your code below and only below here
 //Start here
+// _________________________BITTAR
+
+
+
+
+
+
+
+// _________________________END BITTAR
+
+//__________________________________________________RAGHAD
 
 app.post("/register", (req, res) => {
   db.register(response => {
@@ -32,13 +42,24 @@ app.post("/register", (req, res) => {
   });
 });
 
-//________________________________________GET BEST TRIPS
+//_________________GET BEST TRIPS
 
 app.get("/getBestTrips", (req, res) => {
   db.getBestTrips(response => {
     res.json(response);
   }, req.body);
 });
+
+
+//______________________________________________END RAGHAD
+
+
+//________________________________________________ AZZAM
+
+
+
+
+//________________________________________________END AZZAM
 
 //End here
 //Port

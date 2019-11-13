@@ -24,17 +24,6 @@ app.get("/", (req, res) => res.json("test working"));
 
 //Please write your code below and only below here
 //Start here
-// _________________________BITTAR
-
-
-
-
-
-
-
-// _________________________END BITTAR
-
-//__________________________________________________RAGHAD
 
 app.post("/register", (req, res) => {
   db.register(response => {
@@ -50,21 +39,9 @@ app.get("/getBestTrips", (req, res) => {
   }, req.body);
 });
 
-
-//______________________________________________END RAGHAD
-
-
-//________________________________________________ AZZAM
-
-
-
-
-//________________________________________________END AZZAM
-
 //End here
 //Port
 const PORT = process.env.PORT || 9000;
-
 app.listen(PORT, () => {
   console.log(`Server is listening to ${PORT}`);
 });

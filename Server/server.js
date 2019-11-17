@@ -26,16 +26,29 @@ app.get("/", (req, res) => res.json("test working"));
 //Start here
 
 app.post("/register", (req, res) => {
-  db.register(response => {
+  db.register((response) => {
     res.send(response);
   });
 });
 
 //_________________GET BEST TRIPS
 
-app.get("/getBestTrips", (req, res) => {
-  db.getBestTrips(response => {
-    res.json(response);
+// app.get("/getBestTrips", (req, res) => {
+//   db.getBestTrips((response) => {
+//     res.json(response);
+//   }, req.body);
+// });
+
+app.post("/addBusiness", (req, res) => {
+  db.businessTB((response) => {
+    res.send(response);
+  }, req.body);
+  // res.send("Hello");
+});
+
+app.post("/getBestTrip", (req, res) => {
+  db.findBestTripTB((response) => {
+    res.send(response);
   }, req.body);
 });
 

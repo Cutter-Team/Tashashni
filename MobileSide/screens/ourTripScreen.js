@@ -14,7 +14,6 @@ import t from "tcomb-form-native";
 import TripComponent from "../components/tripComponent";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
-
 //form
 const Form = t.form.Form;
 const User = t.struct({
@@ -29,11 +28,9 @@ class OurTripScreen extends Component {
     //   entertainment: "",
     //   eat: ""
     // },
-
     trips: [],
     currentLocation: {}
   };
-
   findBestTrip = async () => {
     if (this._form.getValue() == null) {
       Alert.alert("PLease Input your Budget");
@@ -57,23 +54,10 @@ class OurTripScreen extends Component {
         console.log(error);
       });
   };
-
-  // changeBudget = (budget) => {
-  //   this.setState({
-  //     budget: {
-  //       trasnportation: budget * 0.2,
-  //       entertainment: budget * 0.5,
-  //       eat: budget * 0.3
-  //     }
-  //   });
-  //   this.state.budget = {};
-  // };
-
   componentDidMount = () => {
     this._getLocation();
     this.setState({ trips: [] });
   };
-
   distance = (lat1, lon1, lat2, lon2) => {
     var radlat1 = (Math.PI * lat1) / 180;
     var radlat2 = (Math.PI * lat2) / 180;
@@ -88,27 +72,18 @@ class OurTripScreen extends Component {
     dist = dist * 1.609344;
     return dist * 0.2;
   };
-
   _getLocation = async () => {
     let { status } = await Permissions.getAsync(Permissions.LOCATION);
     if (status !== "granted") {
       Alert.alert("Permission to access location was denied");
     }
-
     let { coords } = await Location.getCurrentPositionAsync();
     this.setState({ currentLocation: coords });
   };
-
   render() {
     return (
       <View>
         <Form type={User} ref={(c) => (this._form = c)} />
-        {/* <Text>ourTripScreen</Text>
-        <TextInput
-          placeholder="Your Budget"
-          onChangeText={this.changeBudget}
-          keyboardType={"numeric"}
-        /> */}
         {this.state.trips.map((item) => {
           let priceBetweenPlaces = this.distance(
             this.state.currentLocation.latitude,
@@ -116,7 +91,6 @@ class OurTripScreen extends Component {
             item[0].description[0].position[0],
             item[0].description[0].position[1]
           );
-
           return (
             <TripComponent
               key={Math.random() * 100}
@@ -125,11 +99,9 @@ class OurTripScreen extends Component {
             />
           );
         })}
-
         <Button title="Find Best Trips" onPress={this.findBestTrip} />
       </View>
     );
   }
 }
-
 export default OurTripScreen;

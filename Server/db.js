@@ -14,50 +14,56 @@ db.once("open", function() {
 
 let users = new mongoose.Schema({
   email: String,
-  location: String,
+  // location: String,
   password: String,
   username: String
 });
 
-let restaurant = new mongoose.Schema({
-  name: String,
-  location: String,
-  description: String,
-  offers: [
-    {
-      name: String,
-      price: Number
-    }
-  ]
+let business = new mongoose.Schema({
+  description: {},
+  offers: [],
+  type: String
 });
 
-let entertainment = new mongoose.Schema({
-  name: String,
-  location: String,
-  minimumPrice: Number,
-  description: String
-});
+// let restaurant = new mongoose.Schema({
+//   name: String,
+//   location: String,
+//   description: String,
+// offers: [
+//   {
+//     name: String,
+//     price: Number
+//   }
+// ]
+// });
 
-let places = new mongoose.Schema({
-  name: String,
-  location: String
-});
+// let entertainment = new mongoose.Schema({
+//   name: String,
+//   location: String,
+//   minimumPrice: Number,
+//   description: String
+// });
+
+// let places = new mongoose.Schema({
+//   name: String,
+//   location: String
+// });
 
 // End Schema
 
 //MODELS
 let Users = mongoose.model("users", users);
-let Restaurant = mongoose.model("restaurant", restaurant);
-let Entertainment = mongoose.model("entertainment", entertainment);
-let Places = mongoose.model("places", places);
+let Business = mongoose.model("businesses", business);
+// let Restaurant = mongoose.model("restaurant", restaurant);
+// let Entertainment = mongoose.model("entertainment", entertainment);
+// let Places = mongoose.model("places", places);
 
 //QUERIES FUNCTIONS
 //use const instead of let here
-let register = callback => {
+let registerTB = (callback) => {
   Users.create(
     {
       email: "R@gmail.com",
-      place: "Amman",
       password: "123",
       username: "Raghad"
     },
@@ -71,5 +77,93 @@ let register = callback => {
   );
 };
 
+let businessTB = (callback, data) => {
+  Business.create(
+    {
+      description: data,
+      offers: [
+        { name: "Traditional Movie", price: 7.0 },
+        { name: "2D Movie", price: 12.0 },
+
+        { name: "3D Movie", price: 16.0 },
+        { name: "4D Movie", price: 30.0 }
+      ]
+    },
+    (response, error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        callback(response);
+      }
+    }
+  );
+};
+
+let findBestTripTB = async (callBack, budgetObj) => {
+  let results = [];
+
+  await Business.aggregate(
+    [
+      { $match: { type: "restaurant" } },
+      { $unwind: "$offers" },
+      { $match: { "offers.price": { $lt: budgetObj.eat } } },
+      {
+        $group: {
+          _id: "$_id",
+          description: { $last: "$description" },
+          type: { $last: "$type" },
+          offers: { $push: "$offers" }
+        }
+      }
+    ],
+    (error, response) => {
+      if (error) console.log(error);
+      else {
+        if (response.length > 0) results.push(response);
+      }
+    }
+  );
+
+  await Business.aggregate(
+    // [
+    //   { $match: { type: "entertainment" } },
+    //   { $unwind: "$offers" },
+    //   { $match: { "offers.price": { $lt: budget.eat } } },
+    //   {
+    //     $group: {
+    //       _id: "$_id",
+    //       offers: { $push: { offers: "$offers", description: "$description" } }
+    //       // description: "$description"
+    //     }
+    //   }
+    // ]
+    [
+      { $match: { type: "entertainment" } },
+      { $unwind: "$offers" },
+      { $match: { "offers.price": { $lt: budgetObj.entertainment } } },
+      {
+        $group: {
+          _id: "$_id",
+          description: { $last: "$description" },
+          type: { $last: "$type" },
+          offers: { $push: "$offers" }
+        }
+      }
+    ],
+
+    (error, response) => {
+      if (error) console.log(error);
+      else {
+        if (response.length > 0) {
+          results.push(response);
+        }
+      }
+    }
+  );
+  //entertainment
+
+  callBack(results);
+};
+
 //MODULE EXPORTS
-module.exports = { register };
+module.exports = { registerTB, businessTB, findBestTripTB };

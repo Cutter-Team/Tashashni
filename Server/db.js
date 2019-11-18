@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/tashashni", {
   useNewUrlParser: true
 });
+
 const db = mongoose.connection;
 db.on("error", function() {
   console.log("mongoose connection error");
@@ -12,72 +13,27 @@ db.once("open", function() {
 
 //SCHEMAS
 
-let users = new mongoose.Schema({
+const users = new mongoose.Schema({
   email: String,
-  // location: String,
   password: String,
   username: String
 });
 
-let business = new mongoose.Schema({
+const business = new mongoose.Schema({
   description: {},
   offers: [],
   type: String
 });
 
-// let restaurant = new mongoose.Schema({
-//   name: String,
-//   location: String,
-//   description: String,
-// offers: [
-//   {
-//     name: String,
-//     price: Number
-//   }
-// ]
-// });
-
-// let entertainment = new mongoose.Schema({
-//   name: String,
-//   location: String,
-//   minimumPrice: Number,
-//   description: String
-// });
-
-// let places = new mongoose.Schema({
-//   name: String,
-//   location: String
-// });
-
 // End Schema
 
 //MODELS
-let Users = mongoose.model("users", users);
-let Business = mongoose.model("businesses", business);
-// let Restaurant = mongoose.model("restaurant", restaurant);
-// let Entertainment = mongoose.model("entertainment", entertainment);
-// let Places = mongoose.model("places", places);
+const Users = mongoose.model("users", users);
+const Business = mongoose.model("businesses", business);
 
 //QUERIES FUNCTIONS
-//use const instead of let here
-let registerTB = (callback) => {
-  Users.create(
-    {
-      email: "R@gmail.com",
-      password: "123",
-      username: "Raghad"
-    },
-    (error, response) => {
-      if (error) {
-        console.log(error);
-      } else {
-        callback(response);
-      }
-    }
-  );
-};
 
-let businessTB = (callback, data) => {
+const businessTB = (callback, data) => {
   Business.create(
     {
       description: data,
@@ -99,7 +55,7 @@ let businessTB = (callback, data) => {
   );
 };
 
-let findBestTripTB = async (callBack, budgetObj) => {
+const findBestTripTB = async (callBack, budgetObj) => {
   let results = [];
 
   await Business.aggregate(
@@ -125,18 +81,6 @@ let findBestTripTB = async (callBack, budgetObj) => {
   );
 
   await Business.aggregate(
-    // [
-    //   { $match: { type: "entertainment" } },
-    //   { $unwind: "$offers" },
-    //   { $match: { "offers.price": { $lt: budget.eat } } },
-    //   {
-    //     $group: {
-    //       _id: "$_id",
-    //       offers: { $push: { offers: "$offers", description: "$description" } }
-    //       // description: "$description"
-    //     }
-    //   }
-    // ]
     [
       { $match: { type: "entertainment" } },
       { $unwind: "$offers" },
@@ -160,10 +104,8 @@ let findBestTripTB = async (callBack, budgetObj) => {
       }
     }
   );
-  //entertainment
-
   callBack(results);
 };
 
 //MODULE EXPORTS
-module.exports = { registerTB, businessTB, findBestTripTB };
+module.exports = { businessTB, findBestTripTB };

@@ -1,71 +1,62 @@
 import React, { Component } from "react";
-import {
-  Alert,
-  Text,
-  View,
-  TextInput,
-  Button,
-  Keyboard,
-  FlatList,
-  TouchableHighlight
-} from "react-native";
+import { Alert, View, Button, Keyboard } from "react-native";
 import axios from "axios";
 import t from "tcomb-form-native";
 import TripComponent from "../components/tripComponent";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
-//form
+
 const Form = t.form.Form;
+
 const User = t.struct({
   value: t.Number
-  // name: t.String,
-  // age: t.Boolean
 });
+
 class OurTripScreen extends Component {
   state = {
-    // budget: {
-    //   trasnportation: "",
-    //   entertainment: "",
-    //   eat: ""
-    // },
     trips: [],
     currentLocation: {}
   };
+
+  componentDidMount = () => {
+    this._getLocation();
+    this.setState({ trips: [] });
+  };
+
   findBestTrip = async () => {
     if (this._form.getValue() == null) {
       Alert.alert("PLease Input your Budget");
     } else {
       var value = this._form.getValue();
       var amount = {
-        trasnportation: value.value * 0.2,
+        transportation: value.value * 0.2,
         entertainment: value.value * 0.5,
         eat: value.value * 0.3
       };
     }
     Keyboard.dismiss();
     axios
-      // .post("http://10.60.243.14:9000/getBestTrip", this.state.budget)
       .post("http://10.60.243.14:9000/getBestTrip", amount)
       .then(({ data }) => {
         this.setState({ trips: data });
-        console.log(data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
-  componentDidMount = () => {
-    this._getLocation();
-    this.setState({ trips: [] });
-  };
+
   distance = (lat1, lon1, lat2, lon2) => {
-    var radlat1 = (Math.PI * lat1) / 180;
-    var radlat2 = (Math.PI * lat2) / 180;
+    var radLat1 = (Math.PI * lat1) / 180;
+
+    var radLat2 = (Math.PI * lat2) / 180;
+
     var theta = lon1 - lon2;
-    var radtheta = (Math.PI * theta) / 180;
+
+    var radTheta = (Math.PI * theta) / 180;
+
     var dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      Math.sin(radLat1) * Math.sin(radLat2) +
+      Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radTheta);
     dist = Math.acos(dist);
     dist = (dist * 180) / Math.PI;
     dist = dist * 60 * 1.1515;
@@ -83,8 +74,8 @@ class OurTripScreen extends Component {
   render() {
     return (
       <View>
-        <Form type={User} ref={(c) => (this._form = c)} />
-        {this.state.trips.map((item) => {
+        <Form type={User} ref={formValues => (this._form = formValues)} />
+        {this.state.trips.map(item => {
           let priceBetweenPlaces = this.distance(
             this.state.currentLocation.latitude,
             this.state.currentLocation.longitude,

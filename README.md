@@ -22,12 +22,28 @@ This repository holds A Mobile Application dedicated to give Trips advices.
 | :------------------------------------:|:-------------:|:-------------:|
 | Fork 	                      		| ✔️            |		|
 | Clone	                      		| ✔️            |		|
-| Install Node                		| ✔️            |		|
-| Install Nodemon 			| ✔️            |		|
-| Install Express             		| ✔️            |		|
-| Install React               		| ✔️            |		|
-| Install React-Native        		| ✔️            |		|
+| Create Trello Tasks Sheet    		| ✔️            |		|
+| Create Slak Channel          		| ✔️            |		|
+| Install node                		| ✔️            |		|
+| Install cors                		| ✔️            |		|
+| Install mongoose             		| ✔️            |		|
+| Install nodemon 			| ✔️            |		|
+| Install express             		| ✔️            |		|
+| Install react               		| ✔️            |		|
+| Install react-Native        		| ✔️            |		|
+| Install axios                		| ✔️            |		|
+| Install expo-location       		| ✔️            |		|
+| Install expo-permissions     		| ✔️            |		|
+| Install react-native-router-flux      | ✔️            |		|
+| Install tcomb-form-native    		| ✔️            |		|
 | Create PSD              		| ✔️            |		|
+| trip Screen        	 		| ✔️            |		|
+| login Screen         			| ✔️            |		|
+| ourTrip Screen         		| ✔️            |		|
+| Navigations Screen         		| ✔️            |		|
+| trips Screen         			| ✔️            |		|
+| register Screen        		| ✔️            |		|
+| Create Router 	       		| ✔️            |		|
 
 
 
